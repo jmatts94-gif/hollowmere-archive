@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en-GB" data-theme="hearth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Hollowmere Archive — RTK Studios Keepsakes &amp; Book</title>
+  <meta name="description" content="Keepsakes, stories, and quiet artefacts from The Light of Hollowmere and Burrow Kings by RTK Studios." />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Scroll-driven ambient lantern warmth & gentle drifting firefly motes -->
+  <div class="ambient-glow" id="ambientGlow" aria-hidden="true"></div>
+  <div class="firefly-layer" id="fireflyLayer" aria-hidden="true"></div>
+
+  <!-- Delicate side Lantern Thread with glowing mini SVG lantern travelling down as you scroll -->
+  <aside class="lantern-rail" aria-hidden="true">
+    <div class="lantern-rail-track">
+      <div class="lantern-rail-fill" id="railFill"></div>
+      <div class="lantern-rail-spark" id="railSpark">
+        <svg viewBox="0 0 24 32" width="18" height="24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M9 5.5C9 3.8 10.3 2.5 12 2.5C13.7 2.5 15 3.8 15 5.5" stroke="#ebc07c" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M7.5 8.5H16.5L15.2 10.5H8.8L7.5 8.5Z" fill="#d49a4c"/>
+          <rect x="7" y="10.5" width="10" height="13" rx="2" stroke="#ebc07c" stroke-width="1.4" fill="rgba(235, 192, 124, 0.25)"/>
+          <ellipse cx="12" cy="17" rx="2.6" ry="3.8" fill="#ffe6a8" class="lantern-flame"/>
+          <path d="M6.5 23.5H17.5L16 26H8L6.5 23.5Z" fill="#d49a4c"/>
+        </svg>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Top Navigation -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="#top" class="brand" aria-label="The Hollowmere Archive Home">
+        <img src="assets/images/lantern-crest.png" alt="" class="brand-crest" />
+        <div class="brand-text">
+          <span class="brand-title">THE HOLLOWMERE ARCHIVE</span>
+          <span class="brand-sub">The Lantern &amp; Ladle · RTK Studios</span>
+        </div>
+      </a>
+
+      <nav class="main-nav" aria-label="Main navigation">
+        <a href="#thermal-mug">The Mug</a>
+        <a href="#keepsakes">Keepsakes</a>
+        <a href="#the-book">The Book</a>
+        <a href="#ledger" class="nav-ledger">
+          Sir Gideon’s Ledger
+          <span class="ledger-count" id="navLedgerCount" aria-live="polite">0</span>
+        </a>
+      </nav>
+
+      <button type="button" class="theme-toggle" id="themeToggle" aria-label="Toggle between Hearthlight and Parchment reading mode" title="Switch lighting">
+        <span class="toggle-dot" aria-hidden="true"></span>
+        <span id="themeLabel">Hearthlight</span>
+      </button>
+    </div>
+  </header>
+
+  <main id="top">
+    <!-- Hero -->
+    <section class="hero">
+      <div class="container hero-inner" data-reveal>
+        <p class="epigraph">“Every lantern casts a shadow, and every shadow knows its lantern.”</p>
+        <h1 class="hero-title">Step Inside From the Cold</h1>
+        <p class="hero-lead">
+          Quiet keepsakes, stories, and artefacts from the world of <em>The Light of Hollowmere</em> and <em>Burrow Kings</em>.
+          Nothing here is mass-produced. Every physical piece is made only when enough travellers ask for it.
+        </p>
+        <div class="hero-actions">
+          <a href="#thermal-mug" class="btn btn-primary">Pour a Cup &amp; Try the Mug</a>
+          <a href="#the-book" class="btn btn-ghost">Read the Prologue</a>
+        </div>
+        <div class="scroll-cue" aria-hidden="true">
+          <span>Scroll to warm the lantern</span>
+          <i class="scroll-line"></i>
+        </div>
+      </div>
+    </section>
+
+    <!-- Signature Interactive USP: The Thermal-Reactive Mug -->
+    <section id="thermal-mug" class="section mug-feature">
+      <div class="container">
+        <div class="section-head" data-reveal>
+          <span class="eyebrow">Featured Artefact · Interactive Preview</span>
+          <h2>The Snow Footpath Thermal Mug</h2>
+          <p class="section-intro">
+            When cold, it rests like winter frost. Pour in hot tea and watch the warmth rise from the base—carving a narrow road through the snow.
+          </p>
+        </div>
+
+        <div class="mug-grid" data-reveal>
+          <!-- Gallery-Grade Interactive Mug Frame -->
+          <div class="mug-stage-card">
+            <div class="mug-plaque-top">
+              <div class="side-switcher" role="tablist" aria-label="Mug view side">
+                <button type="button" class="side-link is-active" id="tabFront" role="tab" aria-selected="true" data-side="front">
+                  Front · The Journey
+                </button>
+                <span class="side-divider" aria-hidden="true">/</span>
+                <button type="button" class="side-link" id="tabBack" role="tab" aria-selected="false" data-side="back">
+                  Back · The Arrival
+                </button>
+              </div>
+              <span class="mug-temp-readout" id="mugStatePill">Cold Frost · 0%</span>
+            </div>
+
+            <div class="mug-viewport" id="mugViewport" role="button" tabindex="0" aria-label="Tap mug to pour hot tea or let it cool">
+              <img src="assets/images/mug-front-cold.jpg" alt="Cold matte black Hollowmere thermal mug" class="mug-layer mug-cold" id="mugColdImg" />
+              <div class="mug-hot-mask" id="mugHotMask">
+                <img src="assets/images/mug-front-hot.jpg" alt="Hot steaming Hollowmere thermal mug revealing the snow footpath and sayings" class="mug-layer mug-hot" id="mugHotImg" />
+              </div>
+              <!-- Subtle glowing heat-line that travels up the ceramic as warmth rises -->
+              <div class="mug-heat-line" id="mugHeatLine" aria-hidden="true"></div>
+              <div class="mug-tap-hint" id="mugTapHint">Tap mug or glide below to pour</div>
+            </div>
+
+            <div class="mug-console">
+              <button type="button" class="pour-pill" id="pourBtn">
+                <span class="pour-dot" aria-hidden="true"></span>
+                <span id="pourBtnText">Pour Hot Tea</span>
+              </button>
+
+              <div class="brass-slider-wrap">
+                <label for="warmthSlider" class="sr-only">Mug warmth level</label>
+                <div class="brass-track">
+                  <div class="brass-track-fill" id="brassTrackFill"></div>
+                </div>
+                <input type="range" id="warmthSlider" class="brass-range" min="0" max="100" value="0" aria-label="Slide to warm the mug from cold frost to steaming tea" />
+                <div class="slider-labels">
+                  <span>Frost</span>
+                  <span>Warming</span>
+                  <span>Steaming</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Lore & Interest Details -->
+          <div class="mug-story">
+            <div class="status-row">
+              <span class="badge badge-coming">Coming Soon · Demand Test</span>
+              <span class="price-est">Est. £16.99</span>
+            </div>
+
+            <blockquote class="lore-quote">
+              “A shadow is only a stranger until someone sits beside it.<br />
+              Where one walks, a path. Where two walk, a journey.”
+              <cite>— Old Mole Sayings, Chapters Two &amp; Three</cite>
+            </blockquote>
+
+            <p>
+              Because hot water warms ceramic from the bottom up, the narrow winter footpath begins at the base of the mug and winds upward to the lantern at the rim.
+            </p>
+            <p>
+              Turn the mug around and the path arrives at the round wooden burrow door of Hollowmere—where a single golden sliver of light waits in the dark.
+            </p>
+
+            <ul class="craft-list">
+              <li><strong>Vessel:</strong> 11oz stoneware ceramic with matte charcoal heat-reactive glaze.</li>
+              <li><strong>Alignment:</strong> Printed as one single 300 DPI master wrap so the fading light always ends right where it began.</li>
+              <li><strong>Zero Waste:</strong> Made to order—register in Sir Gideon’s Ledger so we know how many travellers want one.</li>
+            </ul>
+
+            <div class="mug-cta-row">
+              <button type="button" class="btn btn-interest" data-interest="thermal-mug" data-label="Snow Footpath Thermal Mug (Est. £16.99)">
+                I’d Love This — Note in Ledger
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Keepsakes Grid -->
+    <section id="keepsakes" class="section keepsakes-section">
+      <div class="container">
+        <div class="section-head" data-reveal>
+          <span class="eyebrow">The Tavern Shelf</span>
+          <h2>Keepsakes &amp; Digital Editions</h2>
+          <p class="section-intro">
+            Tap any piece to read the lore stitched into it, or mark it in Sir Gideon’s Ledger so we know what to craft first.
+          </p>
+        </div>
+
+        <div class="product-grid">
+          <!-- 1. Digital Lorekeeper's Vault -->
+          <article class="product-card" data-product="vault" data-reveal>
+            <div class="card-media">
+              <img src="assets/images/vault-v2.jpg" alt="The Lorekeeper's Vault digital companion edition showing Burrow Kings and The Light of Hollowmere" loading="lazy" />
+              <span class="badge badge-digital">Digital · Launching with Game</span>
+            </div>
+            <div class="card-body">
+              <div class="card-top">
+                <h3>The Lorekeeper’s Vault</h3>
+                <span class="price-est">£6.99</span>
+              </div>
+              <p class="card-desc">
+                The complete digital companion on itch.io: illustrated eBook (ePub &amp; PDF), three ambient tavern tracks, and 4K lantern wallpapers.
+              </p>
+              <div class="card-actions">
+                <button type="button" class="btn btn-outline btn-sm" data-open-modal="vault">Inspect Lore</button>
+                <button type="button" class="btn btn-interest btn-sm" data-interest="vault" data-label="The Lorekeeper’s Vault (Digital, £6.99)">Notify at Launch</button>
+              </div>
+            </div>
+          </article>
+
+          <!-- 2. Hollowmere Key & Lantern Bookmark -->
+          <article class="product-card" data-product="bookmark" data-reveal>
+            <div class="card-media">
+              <img src="assets/images/bookmark.jpg" alt="The Hollowmere Key and Lantern Bookmark on an open hardcover book" loading="lazy" />
+              <span class="badge badge-coming">Coming Soon · Register Interest</span>
+            </div>
+            <div class="card-body">
+              <div class="card-top">
+                <h3>Key &amp; Lantern Bookmark</h3>
+                <span class="price-est">Est. £8.99</span>
+              </div>
+              <p class="card-desc">
+                400gsm textured cotton card with sepia burrow art, forest-green woven ribbon for Elrick’s patch, and a rust-proof sealed bronze door key.
+              </p>
+              <div class="card-actions">
+                <button type="button" class="btn btn-outline btn-sm" data-open-modal="bookmark">Inspect Lore</button>
+                <button type="button" class="btn btn-interest btn-sm" data-interest="bookmark" data-label="Key & Lantern Bookmark (Est. £8.99)">I’d Love This</button>
+              </div>
+            </div>
+          </article>
+
+          <!-- 3. Critters of Hollowmere Sticker Pack -->
+          <article class="product-card" data-product="stickers" data-reveal>
+            <div class="card-media">
+              <img src="assets/images/stickers.jpg" alt="Five matte die-cut vinyl stickers of Hollowmere critters in a kraft sleeve" loading="lazy" />
+              <span class="badge badge-coming">Coming Soon · Register Interest</span>
+            </div>
+            <div class="card-body">
+              <div class="card-top">
+                <h3>Critters Sticker Pack (5)</h3>
+                <span class="price-est">Est. £5.50</span>
+              </div>
+              <p class="card-desc">
+                Elrick, Thaddeus, Ewart Stonewhisker, Gideon’s Two Teacups, and the Hollowmere Crest—matte weatherproof vinyl in a kraft &amp; glassine sleeve.
+              </p>
+              <div class="card-actions">
+                <button type="button" class="btn btn-outline btn-sm" data-open-modal="stickers">Inspect Lore</button>
+                <button type="button" class="btn btn-interest btn-sm" data-interest="stickers" data-label="Critters Sticker Pack (Est. £5.50)">I’d Love This</button>
+              </div>
+            </div>
+          </article>
+
+          <!-- 4. Parchment World Map Print -->
+          <article class="product-card" data-product="map" data-reveal>
+            <div class="card-media card-media-map">
+              <img src="assets/images/vault.jpg" alt="Rolled parchment world map of Hollowmere" class="map-crop" loading="lazy" />
+              <span class="badge badge-cartography">In Cartography · Coming Soon</span>
+            </div>
+            <div class="card-body">
+              <div class="card-top">
+                <h3>Hollowmere Parchment Map</h3>
+                <span class="price-est">Est. £14.99</span>
+              </div>
+              <p class="card-desc">
+                A3 archival giclée art print of the updated Hollowmere world map on heavyweight 240gsm paper. Currently being updated and refined.
+              </p>
+              <div class="card-actions">
+                <button type="button" class="btn btn-outline btn-sm" data-open-modal="map">Inspect Lore</button>
+                <button type="button" class="btn btn-interest btn-sm" data-interest="map" data-label="Hollowmere Parchment Map Print (Est. £14.99)">I’d Love This</button>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- The Book Reading Nook + Instant Prologue Reward -->
+    <section id="the-book" class="section book-section">
+      <div class="container">
+        <div class="book-nook" data-reveal>
+          <div class="book-cover-wrap">
+            <div class="book-3d-stage" id="book3dStage" role="button" tabindex="0" aria-label="Open The Light of Hollowmere to read the Prologue">
+              <div class="book-3d-inner-page" aria-hidden="true">
+                <span class="mini-label">PROLOGUE</span>
+                <span class="mini-title">The First</span>
+                <p class="mini-lines">“Every lantern casts a shadow, and every shadow knows its lantern.”</p>
+                <span class="mini-cue">Reading below ↓</span>
+              </div>
+              <div class="book-3d-cover">
+                <img src="assets/images/book-cover.jpg" alt="Cover of The Light of Hollowmere showing a hooded rat with a lantern at the root gate" class="book-cover-img" loading="lazy" />
+                <span class="book-open-hint">Click cover to open</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="book-copy">
+            <span class="eyebrow">The Companion Novella · By T. R. K.</span>
+            <h2>The Light of Hollowmere</h2>
+            <p class="book-quote">
+              “A crown chosen, not bestowed. Fit for a king not of nobility, but for those of the hearts of the very town he built.”
+            </p>
+            <p>
+              He climbed out of the black water with cold eyes, dripping fur, and a tattered cloak carrying the weight of choices long buried. He sought only quiet among the moss and stones.
+            </p>
+            <p>
+              Instead, he found a youth named Elrick, whose knitted scarf smelled of woodsmoke and who asked far too many questions. Together with a sleepy tortoise whose memory was fading, a smith of few words, and weary travellers fleeing the rising Blight, they built a home beneath the earth.
+            </p>
+
+            <div class="book-editions">
+              <div class="edition-pill">
+                <strong>Free Digital Sampler</strong>
+                <span>Prologue – Ch 3 · itch.io</span>
+              </div>
+              <div class="edition-pill">
+                <strong>Kindle eBook</strong>
+                <span>£3.99 (£1.99 launch week)</span>
+              </div>
+              <div class="edition-pill">
+                <strong>Collector’s Hardcover</strong>
+                <span>£24.99 · Illustrated Case Wrap</span>
+              </div>
+            </div>
+
+            <div class="book-actions">
+              <button type="button" class="btn btn-primary" id="togglePrologueBtn" aria-expanded="false" aria-controls="prologueDrawer">
+                Read the Prologue Here
+              </button>
+              <button type="button" class="btn btn-interest" data-interest="book-hardcover" data-label="The Light of Hollowmere — Collector’s Hardcover (Est. £24.99)">
+                Register for Hardcover
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Instant Reward: Expandable Book-Page Prologue Reader (Jacob's Exact Words) -->
+        <div class="prologue-drawer" id="prologueDrawer" hidden>
+          <div class="parchment-page">
+            <div class="parchment-header">
+              <span class="parchment-label">PROLOGUE</span>
+              <h3 class="parchment-title">The First</h3>
+              <p class="parchment-saying">Every lantern casts a shadow, and every shadow knows its lantern.</p>
+            </div>
+
+            <div class="parchment-prose">
+              <p class="has-dropcap">
+                Before towns had light or life, before the roads had tales of old and new, before the first burrow door was ever carved, there were only the First.
+              </p>
+              <p>
+                The Badger. The Owl. The Toad. The Rat. One of every critter, vast and old, wise, and stoic. These were the flash of light at the beginning.
+              </p>
+              <p>
+                But nothing that bright can stay whole for ever. In time, when critters had built their towns and lit their lanterns, nearly every one of the First was split, like light diffusing through each stained-glass pane that lined every burrow. One half shone, the other cast a shadow, both intertwined at a singular point. The critters of this world never learned the names who came before. They only spoke of them in whispers. Those Above. Those Below.
+              </p>
+              <p>
+                Fractions of those whispers can be seen in the mere, or reflected off puddles created by the changing cycles. Those old enough to remember tales of old will know not to stare too long. You can hear some of those critters across the land in Hollowmere telling stories and fables of Those Above and Those Below. Nobody truly understands what they mean, or why they repeat certain phrases over and over again, like junebugs bumping into the night lanterns, time and time again. One thing is certain: their tales hold weight in the ears of those who choose to listen.
+              </p>
+              <p class="prologue-whisper">
+                “Never stare into the mere for too long. You never know what is staring back.”
+              </p>
+              <p>
+                Every one of the First still has their other half. One walks in the light, above the water. The other waits in its reflection, deep below, where the light has never reached. They are bound together, like a critter and its shadow on a summer’s day. This is the story of one of those shadows.
+              </p>
+            </div>
+
+            <div class="parchment-footer">
+              <button type="button" class="btn btn-primary btn-sm" data-interest="book-sampler" data-label="Free Book Sampler (Prologue–Ch 3) & Launch Alert">
+                Keep Reading — Notify Me When Sampler Opens
+              </button>
+              <button type="button" class="btn btn-outline btn-sm" id="closePrologueBtn">Close Book</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sir Gideon's Ledger: Zero-Cost Demand Validation -->
+    <section id="ledger" class="section ledger-section">
+      <div class="container">
+        <div class="ledger-card" data-reveal>
+          <div class="ledger-head">
+            <span class="eyebrow">Zero Waste · Made Only on Demand</span>
+            <h2>Sir Gideon’s Ledger</h2>
+            <p>
+              Sir Gideon keeps a quiet ledger behind the counter at <em>The Lantern &amp; Ladle</em>. Mark the keepsakes you would genuinely love to own—no payment, no spam. When enough travellers ask for an item, we will craft it and send a single lantern-lit note.
+            </p>
+          </div>
+
+          <div class="ledger-selected" id="ledgerSelectedBox">
+            <h3>Marked in Your Ledger</h3>
+            <ul class="selected-list" id="selectedList">
+              <li class="empty-note">Nothing marked yet—tap “I’d Love This” on any keepsake above.</li>
+            </ul>
+          </div>
+
+          <form class="ledger-form" id="ledgerForm" novalidate>
+            <div class="form-row">
+              <div class="field">
+                <label for="visitorName">Your Name (or Critter Alias)</label>
+                <input type="text" id="visitorName" name="name" placeholder="e.g. A weary traveller" autocomplete="name" />
+              </div>
+              <div class="field">
+                <label for="visitorEmail">Email Address <span aria-hidden="true">*</span></label>
+                <input type="email" id="visitorEmail" name="email" placeholder="you@example.com" required autocomplete="email" />
+              </div>
+            </div>
+            <div class="field">
+              <label for="visitorNote">Anything else you’d love to see from Hollowmere? (Optional)</label>
+              <input type="text" id="visitorNote" name="note" placeholder="e.g. An enamel pin of Thaddeus, or signed bookplates..." />
+            </div>
+            <div class="form-footer">
+              <button type="submit" class="btn btn-primary">Sign Sir Gideon’s Ledger</button>
+              <span class="form-hint">One note when items open. Never shared or sold.</span>
+            </div>
+            <div class="form-status" id="formStatus" role="status" aria-live="polite"></div>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p class="footer-saying">“Where one walks, a path. Where two walk, a journey.”</p>
+      <p class="footer-meta">RTK Studios · Burrow Kings (Android · 8 January 2027) · The Light of Hollowmere</p>
+      <p class="footer-craft">
+        A note on how Hollowmere is made: The story, characters, and creative direction are written by one human founder at RTK Studios. Because we are building on a £0 budget, AI tools are used under close direction to help illustrate the art and maps—with the goal of commissioning independent human artists as the studio grows.
+      </p>
+    </div>
+  </footer>
+
+  <!-- Floating Bottom Dock (Mobile & Desktop) when items are marked in Sir Gideon's Ledger -->
+  <div class="ledger-dock" id="ledgerDock" hidden aria-live="polite">
+    <div class="ledger-dock-inner">
+      <div class="dock-text">
+        <span class="dock-dot" aria-hidden="true"></span>
+        <span id="dockSummary">1 keepsake in Sir Gideon’s Ledger</span>
+      </div>
+      <a href="#ledger" class="dock-cta" id="dockSignBtn">Sign Ledger →</a>
+    </div>
+  </div>
+
+  <!-- Clean Lore & Product Inspection Modal -->
+  <div class="modal-backdrop" id="loreModal" hidden aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-panel">
+      <button type="button" class="modal-close" id="modalClose" aria-label="Close lore panel">&times;</button>
+      <div class="modal-media">
+        <img src="" alt="" id="modalImg" />
+      </div>
+      <div class="modal-content">
+        <span class="badge" id="modalBadge"></span>
+        <h3 id="modalTitle"></h3>
+        <p class="modal-price" id="modalPrice"></p>
+        <blockquote class="modal-quote" id="modalQuote"></blockquote>
+        <p class="modal-desc" id="modalDesc"></p>
+        <ul class="craft-list" id="modalSpecs"></ul>
+        <div class="modal-actions">
+          <button type="button" class="btn btn-primary" id="modalInterestBtn">I’d Love This — Note in Ledger</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
