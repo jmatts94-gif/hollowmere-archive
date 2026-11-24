@@ -537,10 +537,12 @@
     toggleInterest(item.id, item.label);
   });
 
-  ledgerForm.addEventListener("submit", (e) => {
+  ledgerForm.addEventListener("submit", async (e) => {
     e.preventDefault();
     const emailInput = document.getElementById("visitorEmail");
     const nameInput = document.getElementById("visitorName");
+    const noteInput = document.getElementById("visitorNote");
+    const submitBtn = ledgerForm.querySelector('button[type="submit"]');
     const email = emailInput.value.trim();
 
     if (!email || !email.includes("@")) {
@@ -549,17 +551,50 @@
       return;
     }
 
-    const name = nameInput.value.trim() || "traveller";
+    const name = nameInput.value.trim() || "A weary traveller";
+    const note = noteInput ? noteInput.value.trim() : "";
     const count = ledgerItems.size;
-    const itemsMsg = count > 0
-      ? `your interest in ${count} ${count === 1 ? "keepsake" : "keepsakes"}`
-      : "your name";
+    const keepsakeList = count > 0
+      ? Array.from(ledgerItems.values()).join(" | ")
+      : "General Hollowmere launch updates";
 
-    /* NOTE FOR LIVE DEPLOYMENT (£0):
-       Replace this local prototype confirmation with a free Formspree or Tally POST endpoint
-       when publishing to GitHub Pages / Cloudflare Pages. */
-    formStatus.textContent = `Thank you, ${name}. Sir Gideon has inked ${itemsMsg} into the ledger behind the counter (local prototype saved).`;
-    ledgerForm.reset();
+    submitBtn.disabled = true;
+    const originalBtnText = submitBtn.textContent;
+    submitBtn.textContent = "Inking Ledger…";
+    formStatus.textContent = "Sending your entry to Sir Gideon behind the counter…";
+
+    try {
+      const res = await fetch("https://formsubmit.co/ajax/jmatts94@gmail.com", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+        body: JSON.stringify({
+          Name: name,
+          Email: email,
+          Keepsakes_Marked: keepsakeList,
+          Keepsake_Count: String(count),
+          Traveller_Note: note || "(none)",
+          _subject: "Sir Gideon's Ledger — New Hollowmere Archive Entry",
+          _template: "table",
+          _captcha: "false"
+        })
+      });
+
+      if (!res.ok) throw new Error("HTTP " + res.status);
+
+      const itemsMsg = count > 0
+        ? `your interest in ${count} ${count === 1 ? "keepsake" : "keepsakes"}`
+        : "your name";
+      formStatus.textContent = `Thank you, ${name}. Sir Gideon has inked ${itemsMsg} into the ledger behind the counter.`;
+      ledgerForm.reset();
+    } catch (_) {
+      formStatus.textContent = "The lantern flickered while sending—please try once more in a moment, or email jmatts94@gmail.com.";
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = originalBtnText;
+    }
   });
 
   renderLedger(false);
